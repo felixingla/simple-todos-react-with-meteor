@@ -1,31 +1,27 @@
+/*This code imports the Meteor object from the meteor/meteor package, 
+and the TasksCollection object from the /imports/api/TasksCollection module. */
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
+import { TasksCollection } from '../imports/api/TasksCollection';
 
-function insertLink({ title, url }) {
-  LinksCollection.insert({title, url, createdAt: new Date()});
-}
+/*It then defines a function called insertTask that takes 
+a task text as an argument and inserts a new document 
+into the TasksCollection collection with the text 
+as the value of the text field. */
+const insertTask = taskText => TasksCollection.insert({ text: taskText});
 
+/*
+Meteor.startup checks if TasksCollection is empty using find().count(). 
+If empty, it inserts a document for each string in an array using insertTask.*/
 Meteor.startup(() => {
-  // If the Links collection is empty, add some data.
-  if (LinksCollection.find().count() === 0) {
-    insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app'
-    });
-
-    insertLink({
-      title: 'Follow the Guide',
-      url: 'http://guide.meteor.com'
-    });
-
-    insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com'
-    });
-
-    insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com'
-    });
+  if (TasksCollection.find().count() === 0) {
+    [
+      'First Task',
+      'Second Task',
+      'Third Task',
+      'Fourth Task',
+      'Fifth Task',
+      'Sixth Task',
+      'Seventh Task'
+    ].forEach(insertTask)
   }
 });
