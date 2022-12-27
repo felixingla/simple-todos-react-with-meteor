@@ -25,20 +25,30 @@ export const App = () => {
 
   /*Return the fetched tasks from the collection*/
   return (
-    <div>
-      <h1>To-do's application:</h1>
+    <div className='App'>
+      <header>
+        <div className='app-bar'>
+          <div className='app-headr'>
+            <h1>To do list </h1>
+            </div>
+        </div>
+      </header>
+
+      <div className='main'>
       <TaskForm />
-      <ul>
-        {/* Iterate over the tasks constant to render the task text as a list */}
-        {tasks.map(task => (
-          <Task 
-            key={task._id} 
-            task={task} 
-            onChecboxClick={toggleChecked} 
-            onDeleteClick={deleteTask}
-          />
-        ))}
-      </ul>
+
+        <ul className='tasks'>
+          {/* Iterate over the tasks constant to render the task text as a list */}
+          {tasks.map(task => (
+            <Task 
+              key={task._id} 
+              task={task} 
+              onChecboxClick={toggleChecked} 
+              onDeleteClick={deleteTask}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

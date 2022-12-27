@@ -7,16 +7,16 @@ and onDeleteClick props are callback functions that are called when the user int
 with the component. */
 export const Task = ({ task, onChecboxClick, onDeleteClick }) => {
     return <li>
-        <input
+        <input 
         type="checkbox"
         checked={!!task.isChecked}
         onClick={() => onChecboxClick(task)}
         readOnly
         />
         
-        <span>{task.text}</span>
+        <span >{task.text}</span>
 
-        <button onClick={ () => onDeleteClick(task) }> Delete</button>
+        <button onClick={ () => onDeleteClick(task) }>—</button>
 
     </li>
 }
