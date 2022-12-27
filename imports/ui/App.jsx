@@ -4,7 +4,7 @@ import { TasksCollection } from '/imports/api/TasksCollection';
 import { Task } from './Task';
 import { TaskForm } from './TaskForm';
 
-// Function to check or uncheck task
+// Function to check or uncheck task from TasksCollection
 const toggleChecked = ({ _id, isChecked}) => {
   TasksCollection.update(_id, {
     $set: {
@@ -13,27 +13,25 @@ const toggleChecked = ({ _id, isChecked}) => {
   })
 }
 
-// Function to delete a task
+// Function to delete a task from TasksCollection
 const deleteTask = ({_id}) => TasksCollection.remove(_id);
 
 // Displays a list of tasks fetched from a Meteor collection called TasksCollection
 export const App = () => {
 
-  // Declare state function to filter tasks
+  // Declare state variable to filter tasks based on completion status
   const [hideCompleted, setHideCompleted] = useState(false);
 
-  // Declare state function to hide completed tasks
+  // Declare filter object to hide completed tasks (i.e. tasks with isChecked property set to true)
   const hideCompletedFilter = { isChecked: { $ne: true}};
 
-  // Declare state function to show pending tasks
+  // Declare tracker function to count the number of pending tasks (i.e. tasks with isChecked property set to false)
   const pendingTasksCount = useTracker(() => 
     TasksCollection.find(hideCompletedFilter).count()
   );
 
-  // ???
-  const pendingTasksTitle = `${
-    pendingTasksCount ? ` (${pendingTasksCount})` : ''
-  }`;
+  // Declare function to generate a text message indicating the number of pending tasks
+  const pendingTasksTitle = `${`${pendingTasksCount}`}`;
   
   // Fetch tasks from collection
   const tasks = useTracker(() => 
