@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TasksCollection } from '/imports/api/TasksCollection';
 
 // Define the TaskForm component
-export const TaskForm = () => {
+export const TaskForm = ({user}) => {
   // Declare a state variable called "text" and a function called "setText" for updating it
   // Initially, the "text" variable is set to an empty string
   const [text, setText] = useState('');
@@ -19,6 +19,7 @@ export const TaskForm = () => {
     TasksCollection.insert({
       text: text.trim(),
       createdAt: new Date(),
+      userId: user._id
     });
 
     // Set the value of "text" back to an empty string
@@ -36,7 +37,7 @@ export const TaskForm = () => {
         value={text}
         onChange={e => setText(e.target.value)}
       />
-
+    
       <button type="submit">+</button>
     </form>
   );

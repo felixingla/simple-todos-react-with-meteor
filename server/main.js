@@ -7,11 +7,15 @@ import { TasksCollection } from '/imports/api/TasksCollection';
 a task text as an argument and inserts a new document 
 into the TasksCollection collection with the text 
 as the value of the text field. */
-const insertTask = taskText => TasksCollection.insert({ text: taskText});
+const insertTask = (taskText, user) =>
+  TasksCollection.insert({
+    text: taskText,
+    userId: user._id,
+    createdAt: new Date(),
+  });
 
-// Create seed username and password
-const SEED_USERNAME = 'meteorite';
-const SEED_PASSWORD = 'password';
+const SEED_USERNAME = 'felix';
+const SEED_PASSWORD = 'a';
 
 Meteor.startup(() => {
   if (!Accounts.findUserByUsername(SEED_USERNAME)) {
@@ -21,9 +25,9 @@ Meteor.startup(() => {
     });
   }
 
-  // checks if TasksCollection is empty using find().count(). If empty, it inserts a document for each string in an array using insertTask.*/
+  const user = Accounts.findUserByUsername(SEED_USERNAME);
 
-    if (TasksCollection.find().count() === 0) {
+  if (TasksCollection.find().count() === 0) {
     [
       'First Task',
       'Second Task',
@@ -31,8 +35,7 @@ Meteor.startup(() => {
       'Fourth Task',
       'Fifth Task',
       'Sixth Task',
-      'Seventh Task'
-    ].forEach(insertTask)
+      'Seventh Task',
+    ].forEach(taskText => insertTask(taskText, user));
   }
-  
 });
