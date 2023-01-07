@@ -1,12 +1,9 @@
-// Code to set up user accounts
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { TasksCollection } from '/imports/api/TasksCollection';
+import { TasksCollection } from '/imports/db/TasksCollection';
+import { ServiceConfiguration } from 'meteor/service-configuration';
+import '/imports/api/tasksMethods';
 
-/*It then defines a function called insertTask that takes 
-a task text as an argument and inserts a new document 
-into the TasksCollection collection with the text 
-as the value of the text field. */
 const insertTask = (taskText, user) =>
   TasksCollection.insert({
     text: taskText,
@@ -14,8 +11,8 @@ const insertTask = (taskText, user) =>
     createdAt: new Date(),
   });
 
-const SEED_USERNAME = 'felix';
-const SEED_PASSWORD = 'a';
+const SEED_USERNAME = 'meteorite';
+const SEED_PASSWORD = 'password';
 
 Meteor.startup(() => {
   if (!Accounts.findUserByUsername(SEED_USERNAME)) {
@@ -39,3 +36,14 @@ Meteor.startup(() => {
     ].forEach(taskText => insertTask(taskText, user));
   }
 });
+
+ServiceConfiguration.configurations.upsert(
+  { service: 'github' },
+  {
+    $set: {
+      loginStyle: 'popup',
+      clientId: '', // insert your clientId here
+      secret: '', // insert your secret here
+    },
+  }
+);
